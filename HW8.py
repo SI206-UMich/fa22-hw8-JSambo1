@@ -72,6 +72,7 @@ def highest_rated_category(db_filename):#Do this through DB as well
     and their ratings along the x-axis in descending order (by rating).
     """
    #almost had it
+   #dont know the issue w the weird indent error
 
     pass
 
