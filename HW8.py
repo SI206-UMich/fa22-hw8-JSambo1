@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import os
 import sqlite3
 import unittest
+import numpy as np
 #Jack Sambursky
 
 def get_restaurant_data(db_filename):
@@ -29,24 +30,6 @@ def get_restaurant_data(db_filename):
     return rows_dict
 
 
-    # conn = sqlite3.connect(db_filename)
-    # cur = conn.cursor()
-    # cur.execute("SELECT name, category, building, rating FROM restaurants")
-    # rows = cur.fetchall()
-    # conn.close()
-    # return rows
-
-
-    # con = sqlite3.connect(db_filename)
-    # cur = con.cursor()
-
-    # new_list = cur.fetchall()
-    # new_dict = {}
-    # cur.execute('''SELECT name, category, building, rating''')
-    # for i in new_list:
-    #     key = i[0]
-    #     value = i[1:]
-    #     new_dict.update({key: list(value)})
     pass
 
 def barchart_restaurant_categories(db_filename):
@@ -56,10 +39,27 @@ def barchart_restaurant_categories(db_filename):
     also create a bar chart with restaurant categories and the counts of each category.`
     """
 
-    con = sqlite3.connect(db_filename)
-    cur = con.cursor()
 
-    cur.execute("create barchart if not exists restaurant_categories(category TEXT PRIMARY KEY, num_restaurants NUMBER")
+    conn = sqlite3.connect(db_filename)
+    cur = conn.cursor()
+    cur.execute("SELECT category, COUNT(restaurants.id) FROM categories JOIN restaurants ON category_id = categories.id GROUP BY categories.id;")
+    rows = cur.fetchall()
+    conn.close()
+    results = dict(sorted(rows))
+    objects = results.keys()
+    y_pos = np.arange(len(objects))
+    performance = results.values()
+
+    plt.barh(y_pos, performance, align='center', alpha=0.5)
+    plt.yticks(y_pos, objects)
+    plt.xticks(np.arange(5))
+    plt.xlabel('Number of Restaurants')
+    plt.ylabel('Restaurant Categories')
+    plt.title('Types of Restaurant on South University Ave')
+
+    plt.show()
+
+
     pass
 
 #EXTRA CREDIT
