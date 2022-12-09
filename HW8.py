@@ -58,6 +58,7 @@ def barchart_restaurant_categories(db_filename):
     plt.title('Types of Restaurant on South University Ave')
 
     plt.show()
+    return results
 
 
     pass
@@ -70,6 +71,8 @@ def highest_rated_category(db_filename):#Do this through DB as well
     in that category. This function should also create a bar chart that displays the categories along the y-axis
     and their ratings along the x-axis in descending order (by rating).
     """
+   #almost had it
+
     pass
 
 #Try calling your functions here
