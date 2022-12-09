@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import os
 import sqlite3
 import unittest
+#Jack Sambursky
 
 def get_restaurant_data(db_filename):
     """
@@ -9,14 +10,56 @@ def get_restaurant_data(db_filename):
     dictionaries. The key:value pairs should be the name, category, building, and rating
     of each restaurant in the database.
     """
+
+    conn = sqlite3.connect(db_filename)
+    cur = conn.cursor()
+    cur.execute("SELECT name, category,  building, rating FROM restaurants JOIN categories ON category_id  = categories.id JOIN buildings ON building_id = buildings.id;")
+    rows = cur.fetchall() # list of tuples
+    conn.close()
+    rows_dict = []
+    for row in rows:
+        rows_dict.append(
+            {
+                "name": row[0], 
+                "category": row[1],
+                "building": row[2],
+                "rating": row[3]
+            }
+        )
+    return rows_dict
+
+
+    # conn = sqlite3.connect(db_filename)
+    # cur = conn.cursor()
+    # cur.execute("SELECT name, category, building, rating FROM restaurants")
+    # rows = cur.fetchall()
+    # conn.close()
+    # return rows
+
+
+    # con = sqlite3.connect(db_filename)
+    # cur = con.cursor()
+
+    # new_list = cur.fetchall()
+    # new_dict = {}
+    # cur.execute('''SELECT name, category, building, rating''')
+    # for i in new_list:
+    #     key = i[0]
+    #     value = i[1:]
+    #     new_dict.update({key: list(value)})
     pass
 
 def barchart_restaurant_categories(db_filename):
     """
-    This function accepts a file name of a database as a parameter and returns a dictionary. The keys should be the
+    `This function accepts a file name of a database as a parameter and returns a dictionary. The keys should be the
     restaurant categories and the values should be the number of restaurants in each category. The function should
-    also create a bar chart with restaurant categories and the counts of each category.
+    also create a bar chart with restaurant categories and the counts of each category.`
     """
+
+    con = sqlite3.connect(db_filename)
+    cur = con.cursor()
+
+    cur.execute("create barchart if not exists restaurant_categories(category TEXT PRIMARY KEY, num_restaurants NUMBER")
     pass
 
 #EXTRA CREDIT
